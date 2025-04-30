@@ -5,6 +5,7 @@ let day = 1;
 let gameActive = false;
 
 const gameOutput = document.getElementById("gameOutput");
+const startBtn = document.getElementById("startBtn");
 
 function startGame() {
     name = prompt("What's your name, athlete?");
@@ -14,8 +15,8 @@ function startGame() {
     energy = 50;
     speed = 50;
     day = 1;
-    gameOutput.innerHTML = `Welcome to training camp, ${name}!<br>`;
-    nextDay(); // Start first day immediately
+    startBtn.style.display = "none";
+    nextDay();
 }
 
 function nextDay() {
@@ -29,7 +30,7 @@ function nextDay() {
     gameOutput.innerHTML = `
         📅 <strong>Day ${day} of training</strong><br>
         Energy: ${energy} | Speed: ${speed}<br><br>
-        What do you want to do today?<br>
+        What do you want to do today?<br><br>
         <button onclick="makeChoice(1)">🏃 Train</button>
         <button onclick="makeChoice(2)">🛌 Rest</button>
         <button onclick="makeChoice(3)">🍕 Eat Junk Food</button>
@@ -38,29 +39,30 @@ function nextDay() {
 
 function makeChoice(choice) {
     if (choice === 1) {
-        gameOutput.innerHTML += "<br>You hit the track and trained hard 💪";
+        gameOutput.innerHTML += "<br>You trained hard! 💪";
         speed += getRandomInt(5, 10);
         energy -= getRandomInt(10, 15);
     } else if (choice === 2) {
-        gameOutput.innerHTML += "<br>You took the day to rest and recharge 🛌";
+        gameOutput.innerHTML += "<br>You rested and recharged. 🛌";
         energy += getRandomInt(10, 20);
     } else if (choice === 3) {
-        gameOutput.innerHTML += "<br>You chilled and ate junk 🍕";
+        gameOutput.innerHTML += "<br>You chilled with junk food. 🍕";
         energy += 5;
         speed -= 5;
     }
 
-    // Keep stats between 0 and 100
     energy = Math.max(0, Math.min(100, energy));
     speed = Math.max(0, Math.min(100, speed));
-
     day++;
-    setTimeout(nextDay, 1000);
+
+    setTimeout(() => {
+        nextDay();
+    }, 1000);
 }
 
 function endGame() {
     gameOutput.innerHTML = `
-        🏁 <strong>It's RACE DAY!</strong><br>
+        🏁 <strong>RACE DAY!</strong><br><br>
         ${name}, you've got ${energy} energy and ${speed} speed.<br><br>
     `;
 
@@ -75,6 +77,7 @@ function endGame() {
 
     gameOutput.innerHTML += "<br><br>Game Over. Thanks for playing!";
     gameActive = false;
+    startBtn.style.display = "block";
 }
 
 function getRandomInt(min, max) {
