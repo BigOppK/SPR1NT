@@ -1,51 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SP1NT - Wonder's Track Game</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="game.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Game - SP1NT</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>SP1NT</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#game">Play the Game</a></li>
-                <li><a href="#about">About</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="home">
-        <div class="intro">
-            <h2>Welcome to SP1NT</h2>
-            <p>Your ultimate track game experience. Train and race to victory!</p>
-        </div>
-    </section>
-
-    <section id="game">
-        <h2>Play the Track Game</h2>
-        <div id="game-container">
-            <div id="gameOutput"></div>
-            <div id="controls">
-                <button onclick="startGame()">Start Game</button>
-                <button onclick="nextDay()">Next Day</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="about">
-        <h2>About Wonder</h2>
-        <p>I'm Wonder, and I built SP1NT to showcase my love for track and graffiti art. Enjoy the game and stay tuned for more!</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 SP1NT. All Rights Reserved.</p>
-    </footer>
+  <div class="container">
+    <h1>🏃 Track & Field Mini Game</h1>
+    <div id="gameOutput">Click "Start Game" to begin.</div>
+    <button id="startBtn" onclick="startGame()">Start Game</button>
+  </div>
+  <script src="game.js"></script>
 </body>
 </html>
