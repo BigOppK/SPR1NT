@@ -1,10 +1,10 @@
-let name;
+let name = "";
 let energy = 50;
 let speed = 50;
 let day = 1;
 let gameActive = false;
 
-const gameOutput = document.getElementById('gameOutput');
+const gameOutput = document.getElementById("gameOutput");
 
 function startGame() {
     name = prompt("What's your name, athlete?");
@@ -14,73 +14,69 @@ function startGame() {
     energy = 50;
     speed = 50;
     day = 1;
-    gameOutput.innerHTML = `Welcome to training camp, ${name}!<br>Energy: ${energy} | Speed: ${speed}<br>Day 1 of training.<br><br>What will you do today?`;
-    document.querySelector('#controls').style.display = 'none';
-    updateGame();
+    gameOutput.innerHTML = `Welcome to training camp, ${name}!<br>`;
+    nextDay(); // Start first day immediately
 }
 
 function nextDay() {
     if (!gameActive) return;
 
-    if (day <= 5) {
-        gameOutput.innerHTML += `<br><br>📅 Day ${day} of training:<br>Energy: ${energy} | Speed: ${speed}`;
-        gameOutput.innerHTML += `<br>What will you do today?`;
-        gameOutput.innerHTML += `
-            <button onclick="train()">Train (gain speed, lose energy)</button>
-            <button onclick="rest()">Rest (gain energy)</button>
-            <button onclick="junkFood()">Eat junk food (fun, but not helpful)</button>
-        `;
-    } else {
-        raceDay();
+    if (day > 5) {
+        endGame();
+        return;
     }
+
+    gameOutput.innerHTML = `
+        📅 <strong>Day ${day} of training</strong><br>
+        Energy: ${energy} | Speed: ${speed}<br><br>
+        What do you want to do today?<br>
+        <button onclick="makeChoice(1)">🏃 Train</button>
+        <button onclick="makeChoice(2)">🛌 Rest</button>
+        <button onclick="makeChoice(3)">🍕 Eat Junk Food</button>
+    `;
 }
 
-function train() {
-    if (energy > 0) {
-        speed += randomInt(5, 10);
-        energy -= randomInt(10, 15);
-        updateStats();
-    } else {
-        gameOutput.innerHTML += `<br>You don't have enough energy to train today. Rest or eat junk food!`;
+function makeChoice(choice) {
+    if (choice === 1) {
+        gameOutput.innerHTML += "<br>You hit the track and trained hard 💪";
+        speed += getRandomInt(5, 10);
+        energy -= getRandomInt(10, 15);
+    } else if (choice === 2) {
+        gameOutput.innerHTML += "<br>You took the day to rest and recharge 🛌";
+        energy += getRandomInt(10, 20);
+    } else if (choice === 3) {
+        gameOutput.innerHTML += "<br>You chilled and ate junk 🍕";
+        energy += 5;
+        speed -= 5;
     }
-}
 
-function rest() {
-    energy += randomInt(10, 20);
-    updateStats();
-}
-
-function junkFood() {
-    energy += 5;
-    speed -= 5;
-    updateStats();
-}
-
-function updateStats() {
+    // Keep stats between 0 and 100
     energy = Math.max(0, Math.min(100, energy));
     speed = Math.max(0, Math.min(100, speed));
-    gameOutput.innerHTML += `<br><br>Energy: ${energy} | Speed: ${speed}`;
+
     day++;
-    nextDay();
+    setTimeout(nextDay, 1000);
 }
 
-function raceDay() {
-    gameOutput.innerHTML += `<br><br>🏁 It's RACE DAY!<br>${name}, you've got ${energy} energy and ${speed} speed.`;
+function endGame() {
+    gameOutput.innerHTML = `
+        🏁 <strong>It's RACE DAY!</strong><br>
+        ${name}, you've got ${energy} energy and ${speed} speed.<br><br>
+    `;
 
-    let winChance = speed + (energy / 2);
-    let result = randomInt(0, 120);
+    const winChance = speed + Math.floor(energy / 2);
+    const result = getRandomInt(0, 120);
 
     if (result < winChance) {
-        gameOutput.innerHTML += `<br>🏆 YOU WON THE RACE! You're a legend on the track!`;
+        gameOutput.innerHTML += "🏆 YOU WON THE RACE! You're a legend on the track!";
     } else {
-        gameOutput.innerHTML += `<br>You gave it your all, but didn't win this time. 🥈 Keep training!`;
+        gameOutput.innerHTML += "🥈 You gave it your all, but didn't win this time. Keep training!";
     }
 
-    gameOutput.innerHTML += `<br><br>Game Over. Thanks for playing!`;
-    document.querySelector('#controls').style.display = 'block';
+    gameOutput.innerHTML += "<br><br>Game Over. Thanks for playing!";
     gameActive = false;
 }
 
-function randomInt(min, max) {
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
